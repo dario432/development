@@ -1,0 +1,64 @@
+create table :company do |t|
+t.column :name, :string
+t.column :job_id, :integer
+end
+create table :job do |t|
+t.column :title, :string
+t.column :description, :string
+t.column :company_id, :integer
+t.column :question_id, :integer
+end
+create table :question do |t|
+t.column :number, :integer
+t.column :qstopen, :string
+t.column :qstopen, :string 
+t.column :qstclosed, :integer 
+t.column :qstclosed, :integer 
+t.column :job_id, :integer 
+end
+create table :application do |t|
+add_index :application, :candidate_id, :name => "index_on_applications_for_candidates"
+t.column :company_id, :integer
+t.column :job_id, :integer
+t.column :question_id, :integer
+t.column :answer_id, :integer
+t.column :candidate_id, :integer
+t.column :date, :timestamp
+end
+create table :answer do |t|
+t.column :appplication_id, :integer
+t.column :number, :integer
+t.column :ansopennonmand, :string
+t.column :ansopenmand, :string , :null => false 
+t.column :ansclosedmand, :integer , :null => false
+t.column :ansclosednonmand, :integer 
+t.column :job_id, :integer
+end
+create table :candidate do |t|
+t.column :name, :string
+t.column :application_id, :integer
+end
+
+class Company < ActiveRecord::Base
+ has_many:job
+ belongs_to :application
+end
+class Job < ActiveRecord::Base
+ has_many:question
+ belongs_to :company
+ belongs_to :application 
+end
+class Question < ActiveRecord::Base
+ belongs_to :Jobs
+end
+class Application < ActiveRecord::Base
+ has_many:answer
+end
+class Candidate < ActiveRecord::Base
+ has_many:application
+end
+class Answer < ActiveRecord::Base
+ belongs_to :application
+end
+
+
